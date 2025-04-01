@@ -16,13 +16,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Commands/LoginUser\" />
-    <Folder Include="Commands/RegisterUser\" />
-    <Folder Include="Queries/GetUser\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Mappings\" />
-    <Folder Include="Behaviors\" />
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
 </Project>
