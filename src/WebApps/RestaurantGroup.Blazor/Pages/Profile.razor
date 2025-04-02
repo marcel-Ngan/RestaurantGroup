@@ -1,0 +1,122 @@
+﻿@page "/profile"
+@inherits ProfileBase
+@attribute [Authorize]
+
+<h3>My Profile</h3>
+
+@if (IsLoading)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else if (User != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <h5>Email</h5>
+                </div>
+                <div class="col-md-9">
+                    <p>@User.Email</p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <h5>Name</h5>
+                </div>
+                <div class="col-md-9">
+                    <p>@User.FirstName @User.LastName</p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <h5>Roles</h5>
+                </div>
+                <div class="col-md-9">
+                    @if (User.Roles != null && User.Roles.Any())
+                    {
+                        <ul>
+                            @foreach (var role in User.Roles)
+                            {
+                                <li>@role</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No roles assigned</p>
+                    }
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <h5>Account Status</h5>
+                </div>
+                <div class="col-md-9">
+                    @if (User.IsActive)
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Inactive</span>
+                    }
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <h5>Email Verified</h5>
+                </div>
+                <div class="col-md-9">
+                    @if (User.EmailVerified)
+                    {
+                        <span class="badge bg-success">Verified</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">Not Verified</span>
+                    }
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <h5>Account Created</h5>
+                </div>
+                <div class="col-md-9">
+                    <p>@User.CreatedAt.ToString("MMMM dd, yyyy")</p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <h5>Last Login</h5>
+                </div>
+                <div class="col-md-9">
+                    @if (User.LastLoginAt.HasValue)
+                    {
+                        <p>@User.LastLoginAt.Value.ToString("MMMM dd, yyyy HH:mm")</p>
+                    }
+                    else
+                    {
+                        <p>Never</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @ErrorMessage
+    </div>
+}

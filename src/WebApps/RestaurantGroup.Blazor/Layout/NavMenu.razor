@@ -1,39 +1,86 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">RestaurantGroup.Blazor</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+﻿@inherits NavMenuBase
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Restaurant Group Accounting</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link @(NavManager.Uri.EndsWith("/") ? "active" : "")" href="/">Home</a>
+                </li>
+
+                <AuthorizeView>
+                    <Authorized Context="auth">
+                        <li class="nav-item">
+                            <a class="nav-link @(NavManager.Uri.Contains("/profile") ? "active" : "")" href="/profile">Profile</a>
+                        </li>
+
+                        <AuthorizeView Roles="Admin,Manager">
+                            <Authorized Context="adminAuth">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Administration
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="/users">Users</a></li>
+                                        <li><a class="dropdown-item" href="/suppliers">Suppliers</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="/settings">Settings</a></li>
+                                    </ul>
+                                </li>
+                            </Authorized>
+                        </AuthorizeView>
+
+                        <AuthorizeView Roles="Admin,Manager,Chef">
+                            <Authorized Context="chefAuth">
+                                <li class="nav-item">
+                                    <a class="nav-link @(NavManager.Uri.Contains("/recipes") ? "active" : "")" href="/recipes">Recipes</a>
+                                </li>
+                            </Authorized>
+                        </AuthorizeView>
+
+                        <AuthorizeView Roles="Admin,Manager,Accountant">
+                            <Authorized Context="accountantAuth">
+                                <li class="nav-item">
+                                    <a class="nav-link @(NavManager.Uri.Contains("/invoices") ? "active" : "")" href="/invoices">Invoices</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link @(NavManager.Uri.Contains("/reports") ? "active" : "")" href="/reports">Reports</a>
+                                </li>
+                            </Authorized>
+                        </AuthorizeView>
+                    </Authorized>
+                </AuthorizeView>
+            </ul>
+
+            <ul class="navbar-nav">
+                <AuthorizeView>
+                    <Authorized Context="userAuth">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                @userAuth.User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><button class="dropdown-item" @onclick="Logout">Logout</button></li>
+                            </ul>
+                        </li>
+                    </Authorized>
+                    <NotAuthorized>
+                        <li class="nav-item">
+                            <a class="nav-link @(NavManager.Uri.Contains("/login") ? "active" : "")" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(NavManager.Uri.Contains("/register") ? "active" : "")" href="/register">Register</a>
+                        </li>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </ul>
+        </div>
     </div>
-</div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+</nav>

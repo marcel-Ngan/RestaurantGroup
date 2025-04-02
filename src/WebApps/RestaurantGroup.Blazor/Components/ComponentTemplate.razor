@@ -1,0 +1,19 @@
+﻿@inherits ComponentTemplateBase
+
+<div>
+    <!-- Component UI goes here -->
+    <h3>@Title</h3>
+    <p>@Description</p>
+
+    @if (IsLoading)
+    {
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else
+    {
+        <!-- Main component content goes here -->
+        @ChildContent
+    }
+</div>

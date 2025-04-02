@@ -1,0 +1,90 @@
+﻿@page "/"
+@inherits IndexBase
+
+<PageTitle>Home - Restaurant Group Accounting</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome, @context.User.Identity?.Name!</h1>
+            <p class="lead">
+                This is your restaurant group accounting system dashboard. Use the navigation menu to access different features.
+            </p>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Recipes & Food Cost</h5>
+                        <p class="card-text">Manage recipes and track theoretical food costs for your menu items.</p>
+                        <a href="/recipes" class="btn btn-primary">Manage Recipes</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Suppliers & Invoices</h5>
+                        <p class="card-text">Track suppliers and process invoices with OCR technology.</p>
+                        <a href="/invoices" class="btn btn-primary">View Invoices</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Financial Reports</h5>
+                        <p class="card-text">Generate and view financial reports for your restaurant group.</p>
+                        <a href="/reports" class="btn btn-primary">View Reports</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="jumbotron">
+            <h1 class="display-4">Restaurant Group Accounting System</h1>
+            <p class="lead">
+                Welcome to the accounting system for your restaurant group business. Please log in to access the system.
+            </p>
+            <hr class="my-4">
+            <p>
+                This system helps you manage recipes, track food costs, process invoices, and generate financial reports.
+            </p>
+            <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a>
+            <a class="btn btn-secondary btn-lg" href="/register" role="button">Register</a>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Recipe Management</h5>
+                        <p class="card-text">Create and manage recipes with automatic food cost calculations.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">OCR Invoice Processing</h5>
+                        <p class="card-text">Automatically process invoices using OCR technology in English and Chinese.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Financial Reporting</h5>
+                        <p class="card-text">Generate comprehensive financial reports for your restaurant group.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
